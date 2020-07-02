@@ -34,9 +34,30 @@ Hence, the integration of Modbus is an auspicious step for the use of StreamPipe
 
 
 ## Basics of Modbus
+In this chapter we will introduce you to Modbus, thus we the concept of how Modbus is designed,
+the available object structure etc. If you are already familiar with Modbus, you can skip this chapter and 
+directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipes).
+<br>
+Since its foundations in 1979 Modbus has become one of the most used protocols in industrial context,
+which can be traced back to its simplicity.
+To facilitate communication Modbus enables multiple devices connected in an Ethernet network or to the same cable
+to swap messages. As wiring type, a serial interface can be used, Modbus supports RS232 and RS485, or Ethernet.
+Consequently, Modbus can be classified as an application layer protocol in accordance with the [OSI model](https://en.wikipedia.org/wiki/OSI_model).
 
+Modbus uses a master-slave structure as architecture, that means we have central master which is connected to multiple slaves.
+The master can send messages to the slaves on which they respond. There are to message types to be distinguished: 
+First one is called broadcast, in this case the server sends a message to all slaves. In the other case the master sends a message to a specific slave.
+A slave always responds to a message, be it with the queried information or an error message in case the sent massage was not correct.
+![](/docs/blog/assets/2020-07-xx/communication_types.gif)
+
+Protokoll typen ascii, tcp-ip usw. TCP IP genauer, da hier implementiert
+
+Datentypen <br>
+Master Slave
 
 ## Using Modbus in StreamPipes
+only tcpip
+with plc4x as driver
 
 ### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
