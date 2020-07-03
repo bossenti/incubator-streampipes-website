@@ -38,22 +38,45 @@ In this chapter we will introduce you to Modbus, thus we the concept of how Modb
 the available object structure etc. If you are already familiar with Modbus, you can skip this chapter and 
 directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipes).
 <br>
+###### General
 Since its foundations in 1979 Modbus has become one of the most used protocols in industrial context,
 which can be traced back to its simplicity.
 To facilitate communication Modbus enables multiple devices connected in an Ethernet network or to the same cable
 to swap messages. As wiring type, a serial interface can be used, Modbus supports RS232 and RS485, or Ethernet.
 Consequently, Modbus can be classified as an application layer protocol in accordance with the [OSI model](https://en.wikipedia.org/wiki/OSI_model).
-
+<br>
+###### Architecture
 Modbus uses a master-slave structure as architecture, that means we have central master which is connected to multiple slaves.
-The master can send messages to the slaves on which they respond. There are to message types to be distinguished: 
-First one is called broadcast, in this case the server sends a message to all slaves. In the other case the master sends a message to a specific slave.
-A slave always responds to a message, be it with the queried information or an error message in case the sent massage was not correct.
+The master can send messages to the slaves on which they respond. There are two message types to be distinguished: 
+First one is called broadcast, in this case the server sends a message to all slaves. Alternatively, the master sends a message to a specific slave.
+A slave always responds to a message be it with the queried information or an error message in case the sent massage was not correct,
+but not on broadcasts. Accordingly, broadcasts are not suitable for queries.
 ![](/docs/blog/assets/2020-07-xx/communication_types.gif)
+<br>
+###### Message structure
+There exist a lot of different versions how Modbus is actually implemented with regard to the network design.
+The most prominent are:
+ - **Modbus RTU**: used for serial communication, compact binary data representation, only machine-readable
+ - **Modbus ASCII**: used for serial communication, communication uses ASCII characters, human-readable
+ - **Modbus TCP/IP**: used in TCP/IP networks, connecting on port `502`, allows other protocols on the network as well
+ 
+Currently, StreamPipes supports only the usage of `ModbusTCP`.
+<br>
+As a communication protocol, the very structure of a message is crucial.
+One message is referred to as *application data unit (APU)* and encompasses the *protocol data unit (PDU)*.
+Whereas the PDU is independent of the underlying communication layers and therefore equal for all deifferent Modbus implementations, 
+the ADU can require some additional fields dependent on the specific network or bus system.
+<br>
+![schematic representation of a Modbus message](/docs/blog/assets/2020-07-xx/message_structure.png)
+The function code encodes the action to perform for the receiver and consists of one byte. 
+Values from 1 to 127 are reserved for the specific functions. The range 128-255 is used for exception responses, 
+which appear if the message is invalid or the receiver was unable to process it.
 
+siehe weitere in Modbus Specification
 Protokoll typen ascii, tcp-ip usw. TCP IP genauer, da hier implementiert
 
-Datentypen <br>
-Master Slave
+Datentypen
+
 
 ## Using Modbus in StreamPipes
 only tcpip
