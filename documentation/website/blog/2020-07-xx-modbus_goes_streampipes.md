@@ -90,9 +90,12 @@ Up to here, we have talked already a lot about the theoretical aspects of Modbus
 get into praxis.
 
 ## Using Modbus in StreamPipes
+For the integration of Modbus in StreamPipes we use the driver of the great library [PLC4X](https://plc4x.apache.org/).
+This allows us to let you easily incorporate with Modbus by providing a dedicated connector
+which can be found in the data marketplace of StreamPipes Connect.
 
-only tcpip
-with plc4x as driver
+In the following we will provide you a step-by-step example on how to use Modbus for data analysis in StreamPipes.
+
 
 ### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
