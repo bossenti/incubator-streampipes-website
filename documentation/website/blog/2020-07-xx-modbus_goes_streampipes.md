@@ -22,7 +22,7 @@ However, there are many machines that are still in use, even though they have al
 These are especially used by small and medium-sized companies (the famous German Mittelstand).
 Since the purchase of a new machine represents an enormous investment for these companies,
 they usually try to use machines for a longer period of time.
-Over time, they upgrade the machines step by step and adapt them to new needs (called *retrofiting*).
+Over time, they upgrade the machines step by step and adapt them to new needs (called *retrofitting*).
 One approach here could be, for example, to install smart sensors in a machine and let them transfer data to the cloud.
 <br>
 Alternatively, IIoT can be brought directly to the PLCs. This can be achieved by using a converter
@@ -34,28 +34,28 @@ Hence, the integration of Modbus is an auspicious step for the use of StreamPipe
 
 
 ## Basics of Modbus
-In this chapter we will introduce you to Modbus, thus we the concept of how Modbus is designed,
+In this chapter we will introduce you to Modbus, i.e. we will talk the concept, how Modbus is set up,
 the available object structure etc. If you are already familiar with Modbus, you can skip this chapter and 
 directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipes).
 <br>
 ###### General
-Since its foundations in 1979 Modbus has become one of the most used protocols in industrial context,
+Since its release in 1979, Modbus has become one of the most widely used protocols in the industrial context,
 which can be traced back to its simplicity.
-To facilitate communication Modbus enables multiple devices connected in an Ethernet network or to the same cable
-to swap messages. As wiring type, a serial interface can be used, Modbus supports RS232 and RS485, or Ethernet.
-Consequently, Modbus can be classified as an application layer protocol in accordance with the [OSI model](https://en.wikipedia.org/wiki/OSI_model).
+To facilitate communication, Modbus enables multiple devices connected in an Ethernet network or to the same cable
+to swap messages. A serial interface can be used as the wiring type, Modbus supports here RS232 and RS485.
+Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classified as an application layer protocol.
 <br>
 ###### Architecture
-Modbus uses a master-slave structure as architecture, that means we have central master which is connected to multiple slaves.
-The master can send messages to the slaves on which they respond. There are two message types to be distinguished: 
-First one is called broadcast, in this case the server sends a message to all slaves. Alternatively, the master sends a message to a specific slave.
-A slave always responds to a message be it with the queried information or an error message in case the sent massage was not correct,
-but not on broadcasts. Accordingly, broadcasts are not suitable for queries.
+Modbus uses a master-slave structure as architecture, i.e. we have a central master which is connected to multiple slaves.
+The master can send messages to the slaves to which they respond. There are two message types to be distinguished: 
+The first one is called a broadcast, in which case the server sends a message to all slaves. Alternatively, the master sends a message to a specific slave.
+A slave always responds to a dedicated message (not on broadcasts), either with the queried information or with an error message if the sent massage was not correct,
+Accordingly, broadcasts are not suitable for queries.
 ![](/docs/blog/assets/2020-07-xx/communication_types.gif)
 <br>
 ###### Message Structure
-There exist a lot of different versions how Modbus is actually implemented with regard to the network design.
-The most prominent are:
+There exist a lot of different versions of how Modbus is actually implemented in terms of network design.
+The most used are:
  - **Modbus RTU**: used for serial communication, compact binary data representation, only machine-readable
  - **Modbus ASCII**: used for serial communication, communication uses ASCII characters, human-readable
  - **Modbus TCP/IP**: used in TCP/IP networks, connecting on port `502`, allows other protocols on the network as well
@@ -63,20 +63,20 @@ The most prominent are:
 Currently, StreamPipes supports only the usage of `ModbusTCP/IP`.
 <br>
 
-As a communication protocol, the very structure of a message is crucial.
-Modbus refers to a message as *application data unit (APU)* and encompasses the *protocol data unit (PDU)*.
-Whereas the PDU is independent of the underlying communication layers and therefore equal for all different Modbus implementations, 
-the ADU can require some additional fields dependent on the specific network or bus system.
+With a communication protocol the exact structure of a message is of great importance.
+Modbus refers to a message as *application data unit (APU)* which encompasses the *protocol data unit (PDU)*.
+While the PDU is independent of the underlying communication layers and therefore the same for all different Modbus implementations, 
+the ADU may require some additional fields, depending on the specific network or bus system.
 <br>
 ![schematic representation of a Modbus message](/docs/blog/assets/2020-07-xx/message_structure.png)
 <br>
-The function code encodes the action to perform for the receiver and consists of one byte. 
-Values from 1 to 127 are reserved for the specific functions. The range 128-255 is used for exception responses, 
-which appear if the message is invalid or the receiver was unable to process it.
-If the receiver of a message needs additional information to take the specified action,
-this is provided by the sender in the data field. This can typically be the register address or a value to be written.
-For some function codes the specified action does not need further information, therefore, the data field does not exist
-(of length zero). <br>
+The function code encodes the action to be performed for the receiver and consists of one byte. 
+The values from 1 to 127 are reserved for the specific functions. The range 128-255 is used for exception responses, 
+which are necessary if the message is invalid or the recipient could not process it.
+If the receiver of a message requires additional information to perform the specified action,
+the sender specifies this in the data field. This can typically be the register address or a value to be written.
+For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
+(with length zero). <br>
 <br>
 ###### Data Model
 Modbus distinguishes four different object types that a slave is represented by:
@@ -86,15 +86,15 @@ So for practical purpose, you can consider `coil` and `disrete input` as boolean
 `holding register` and `input register` as integers.
 <br>
 
-Up to here, we have talked already a lot about the theoretical aspects of Modbus, so let's
-get into praxis.
+Up to here, we have already talked a lot about the theoretical aspects of Modbus, so let's
+now put this into practice.
 
 ## Using Modbus in StreamPipes
-For the integration of Modbus in StreamPipes we use the driver of the great library [PLC4X](https://plc4x.apache.org/).
-This allows us to let you easily incorporate with Modbus by providing a dedicated connector
-which can be found in the data marketplace of StreamPipes Connect.
+For the integration of Modbus into StreamPipes we use the driver of the awesome library [PLC4X](https://plc4x.apache.org/).
+This allows us to provide easy use of Modbus in the form of a dedicated connector that can be found in the data marketplace of StreamPipes Connect.
+As already mentioned above, the Modbus connector is currently limited to using Ethernet communication via TCP/IP.
 
-In the following we will provide you a step-by-step example on how to use Modbus for data analysis in StreamPipes.
+In the following we will provide you a step-by-step example on how to use StreamPipes for analyzing Modbus data.
 
 
 ### Interesting Links
