@@ -40,9 +40,9 @@ directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipe
 <br>
 ###### General
 Since its release in 1979, Modbus has become one of the most widely used protocols in the industrial context,
-which can be traced back to its simplicity.
+which can be traced back to its simplicity and high communication efficiency.
 To facilitate communication, Modbus enables multiple devices connected in an Ethernet network or to the same cable
-to swap messages. A serial interface can be used as the wiring type, Modbus supports here RS232 and RS485.
+to swap messages. A serial interface can be used as the wiring type, Modbus supports here RS232, RS422 and RS485.
 Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classified as an application layer protocol.
 <br>
 ###### Architecture
@@ -77,6 +77,13 @@ If the receiver of a message requires additional information to perform the spec
 the sender specifies this in the data field. This can typically be the register address or a value to be written.
 For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
 (with length zero). <br>
+
+Up to here, this is common for all verions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
+as this is used in StreamPipes.<br>
+To stay compatible with the serial version of Modbus, Modbus packets are embedded into TCP frames assigned to port 502.
+Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message.
+
+bis hierhin allgemein, nun noch etwas über TCP, siehe Dutertre Formal Modeling and analysis...
 <br>
 ###### Data Model
 Modbus distinguishes four different object types that a slave is represented by:
@@ -86,8 +93,7 @@ So for practical purpose, you can consider `coil` and `disrete input` as boolean
 `holding register` and `input register` as integers.
 <br>
 
-Up to here, we have already talked a lot about the theoretical aspects of Modbus, so let's
-now put this into practice.
+Up to here, we have already talked a lot about the theoretical aspects of Modbus, so let's now put this into practice.
 
 ## Using Modbus in StreamPipes
 For the integration of Modbus into StreamPipes we use the driver of the awesome library [PLC4X](https://plc4x.apache.org/).
@@ -100,6 +106,7 @@ In the following we will provide you a step-by-step example on how to use Stream
 ### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
 - [2] [Specification of Modbus](http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b3.pdf)
+- [3] [More on PLC4X](https://plc4x.apache.org/)
 
 ##### Please Notice
 This article and the corresponding work in StreamPipes were part of the seminar
