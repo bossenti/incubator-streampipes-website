@@ -111,7 +111,7 @@ use the existing infrastructure. Second, TCP is very flexible and it is possible
 just communicating via Modbus.
 As always in real life, the use of TCP as the communication layer also has downsides.
 A very important aspect for the application in an industrial context are possible vulnerabilities associated with TCP.
-Also the increasing complexity should not be neglected.
+Also, the increasing complexity should not be neglected.
 <br>
 ###### Data Model
 The data model of Modbus is very simple as it was originally designed for serial Modbus communication.
