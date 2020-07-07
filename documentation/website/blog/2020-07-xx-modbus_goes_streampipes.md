@@ -59,6 +59,7 @@ A response may comprise the information solicited by the server or an error mess
 The only way to start a communication is the server sending a request.
 Neither can the clients send messages to each other, nor can they send data on their own.
 <br>
+
 ![](/docs/blog/assets/2020-07-xx/communication_types.gif)
 <br>
 ###### Message Structure
@@ -76,15 +77,18 @@ Modbus refers to a message as *application data unit (APU)* which encompasses th
 While the PDU is independent of the underlying communication layers and therefore the same for all different Modbus implementations, 
 the ADU may require some additional fields, depending on the specific network or bus system.
 <br>
+
 ![schematic representation of a Modbus message](/docs/blog/assets/2020-07-xx/message_structure.png)
 <br>
-The function code encodes the action to be performed for the receiver and consists of one byte. 
-The values from 1 to 127 are reserved for the specific functions. The range 128-255 is used for exception responses, 
-which are necessary if the message is invalid or the recipient could not process it.
+The function code encodes the action to be performed for the receiver and consists of one byte, e.g. `0x02` for *Read Discrete Inputs*.
+The values from 1 to 127 are reserved for the specific functions, but only nineteen of them are actually covered with a meaning.
+The range 128-255 is used for exception responses, which are necessary if the message is invalid or the recipient could not process it.
 If the receiver of a message requires additional information to perform the specified action,
-the sender specifies this in the data field. This can typically be the register address or a value to be written.
+the sender specifies this in the data field. This can typically be the register address plus the number of fields or a value to be written.
 For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
 (with length zero). <br>
+
+![schematic representation of the message validation](/docs/blog/assets/2020-07-xx/message_check.png)
 <br>
 ###### Modbus TCP
 Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
@@ -109,17 +113,20 @@ use the existing infrastructure. Second, TCP is very flexible and it is possible
 just communicating via Modbus.
 As always in real life, the use of TCP as the communication layer also has downsides.
 A very important aspect here for the application in the industrial context are possible vulnerabilities that come in hand with TCP.
-Increasing complexity should also not be neglected. 
-
-bis hierhin allgemein, nun noch etwas über TCP, siehe Dutertre Formal Modeling and analysis...
+Increasing complexity should also not be neglected.
 <br>
 ###### Data Model
 The data model of Modbus is very simple as it was originally designed for serial Modbus communication.
-Nevertheless, it is common  to all variants of Modbus.
+Nevertheless, it is common to all variants of Modbus.
 Modbus distinguishes four different object types (commonly referred to as registers) that a client can provide:
 <br>
 ![](/docs/blog/assets/2020-07-xx/object_types.png)
 <br>
+Usually, a specific field in the individual registers is accessible via a 16-bit address and 
+Modbus does not require to keep the four address spaces separate, thus they can overlap.
+Furthermore, a Modbus device can but is not required to support all types of registers and
+can also offer fewer addresses than in a 16-bit space.
+
 So for practical purpose, you can consider `coil` and `disrete input` as boolean values and 
 `holding register` and `input register` as integers.
 <br>
