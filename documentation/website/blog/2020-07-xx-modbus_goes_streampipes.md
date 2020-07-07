@@ -2,15 +2,16 @@
 title: Modbus goes StreamPipes
 author: Tim Bossenmaier
 authorURL: -
-AuthorImageURL: -
+authorImageURL: -
 ---
-<img class="blog-image" style="..." src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png">
-**<div sytle="..."> x minutes to read</div>**
+<img class="blog-image" style="..." src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
+**<div style="float: left; padding-right: 40px;"> x minutes to read</div>**
 <br>
 
 
 This blog post is about the latest supplement to the StreamPipes adapter family: the Modbus protocol.
 In the subsequent lines you can read about some basics of the protocol and how you can use it in StreamPipes.
+<!--truncate-->
 
 ## Introduction
 In recent years, IoT has developed from a vague concept into a valuable and applicable instrument that can be used in industry. 
@@ -46,11 +47,18 @@ to swap messages. A serial interface can be used as the wiring type, Modbus supp
 Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classified as an application layer protocol.
 <br>
 ###### Architecture
-Modbus uses a master-slave structure as architecture, i.e. we have a central master which is connected to multiple slaves.
-The master can send messages to the slaves to which they respond. There are two message types to be distinguished: 
-The first one is called a broadcast, in which case the server sends a message to all slaves. Alternatively, the master sends a message to a specific slave.
-A slave always responds to a dedicated message (not on broadcasts), either with the queried information or with an error message if the sent massage was not correct,
-Accordingly, broadcasts are not suitable for queries.
+A typical architecture in which Modbus can be applied consists of multiple devices connected to a single bus and communicating with a central controller.
+To administrate the network, e.g. control access to communication line,
+Modbus uses a master-slave structure (hereinafter named client-server-architecture,
+where client refers to slave and server to master) as the architecture.
+A central server (controller) is connected to multiple clients (single devices).
+The server always initiates communication by sending messages on the bus.
+These messages can either be addressed to a single device or to all devices (a so-called broadcast). <br>
+After receiving a dedicated message (no broadcast), a client answers by sending a response on the bus to the server. 
+A response may comprise the information solicited by the master or an error message if the original message was invalid or transmitted incorrectly.
+The only way to start a communication is the server sending a request.
+Neither can the clients send messages to each other, nor can they send data on their own.
+<br>
 ![](/docs/blog/assets/2020-07-xx/communication_types.gif)
 <br>
 ###### Message Structure
@@ -78,17 +86,28 @@ the sender specifies this in the data field. This can typically be the register 
 For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
 (with length zero). <br>
 
-Up to here, this is common for all verions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
+Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
 as this is used in StreamPipes.<br>
-To stay compatible with the serial version of Modbus, Modbus packets are embedded into TCP frames assigned to port 502.
-Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message.
+To stay compatible with the serial version of Modbus, Modbus packets are embedded into TCP frames assigned to port `502`.
+Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
+which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
+predominated by the serial protocol.
+<br>
+If you transmit Modbus communication via TCP, you can benefit from many advantages. First, TCP resp. TCP/IP compatible
+networks are extremely widespread and commonly used in all areas. This brings economic advantages as you can 
+use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
+just communicating via Modbus.
+As always in real life, the use of TCP as the communication layer also has downsides.
+A very important aspect here for the application in the industrial context are possible vulnerabilities that come in hand with TCP.
+Increasing complexity should also not be neglected. 
 
 bis hierhin allgemein, nun noch etwas über TCP, siehe Dutertre Formal Modeling and analysis...
 <br>
 ###### Data Model
 Modbus distinguishes four different object types that a slave is represented by:
+<br>
 ![](/docs/blog/assets/2020-07-xx/object_types.png)
-
+<br>
 So for practical purpose, you can consider `coil` and `disrete input` as boolean values and 
 `holding register` and `input register` as integers.
 <br>
