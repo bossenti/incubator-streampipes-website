@@ -30,6 +30,7 @@ One protocol supported by many of these converters is Modbus. Published in 1979 
 it has become one of the most popular communication protocols for electronic devices due to the fact its publicly available and royalty-free.
 Hence, the integration of Modbus is an auspicious step for the use of StreamPipes in practice. 
 <br>
+<br>
 
 ## Basics of Modbus
 In this chapter we will introduce you to Modbus, i.e. we will talk the concept, how Modbus is set up,
@@ -40,7 +41,7 @@ directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipe
 Since its release in 1979, Modbus has become one of the most widely used protocols in the industrial context,
 which can be traced back to its simplicity and high communication efficiency.
 To facilitate communication, Modbus enables multiple devices connected in an Ethernet network or to the same cable
-to swap messages. A serial interface can be used as the wiring type, Modbus supports here RS232, RS422 and RS485.
+to swap messages.Beside Ethernet, a serial interface can be used as the wiring type, Modbus supports here RS232, RS422 and RS485.
 Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classified as an application layer protocol.
 <br>
 ###### Architecture
@@ -52,12 +53,12 @@ A central server (controller) is connected to multiple clients (single devices).
 The server always initiates communication by sending messages on the bus.
 These messages can either be addressed to a single device or to all devices (a so-called broadcast). <br>
 After receiving a dedicated message (no broadcast), a client answers by sending a response on the bus to the server. 
-A response may comprise the information solicited by the server or an error message if the original message was invalid or transmitted incorrectly.
+A response may comprise the information solicited by the server or an error message if the original message was invalid or transmitted incorrectly.<br>
 The only way to start a communication is the server sending a request.
 Neither can the clients send messages to each other, nor can they send data on their own.
 <br>
 
-![](/docs/blog/assets/2020-07-xx/communication_types.gif)
+![ ](/docs/blog/assets/2020-07-xx/communication_types.gif)
 <br>
 ###### Message Structure
 There exist a lot of different versions of how Modbus is actually implemented in terms of network design.
@@ -78,10 +79,10 @@ the ADU may require some additional fields, depending on the specific network or
 ![schematic representation of a Modbus message](/docs/blog/assets/2020-07-xx/message_structure.png)
 <br>
 The function code encodes the action to be performed for the receiver and consists of one byte, e.g. `0x02` for *Read Discrete Inputs*.
-The values from 1 to 127 are reserved for the specific functions, but only nineteen of them are actually covered with a meaning.
+The values from 1 to 127 are reserved for the specific functions, but only nineteen of them are actually assigned a corresponding function.
 The range 128-255 is used for exception responses, which are necessary if the message is invalid or the recipient could not process it.
 If the receiver of a message requires additional information to perform the specified action,
-the sender specifies this in the data field. This can typically be the register address plus the number of fields or a value to be written.
+the sender specifies this in the data field. This can typically be the register address plus the number of fields.
 For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
 (with length zero). <br>
 
@@ -90,7 +91,7 @@ For some function codes, the specified action does not require any additional in
 ###### Modbus TCP
 Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
 as this is used in StreamPipes.<br>
-To stay compatible with the serial version of Modbus, Modbus packets are embedded into TCP frames assigned to port `502`.
+To stay compatible with its serial version, Modbus packets are embedded into TCP frames assigned to port `502`.
 Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
 which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
 predominated by the serial protocol.
@@ -109,8 +110,8 @@ networks are extremely widespread and commonly used in all areas. This brings ec
 use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
 just communicating via Modbus.
 As always in real life, the use of TCP as the communication layer also has downsides.
-A very important aspect here for the application in the industrial context are possible vulnerabilities that come in hand with TCP.
-Increasing complexity should also not be neglected.
+A very important aspect for the application in an industrial context are possible vulnerabilities assciated with TCP.
+Also the increasing complexity should not be neglected.
 <br>
 ###### Data Model
 The data model of Modbus is very simple as it was originally designed for serial Modbus communication.
