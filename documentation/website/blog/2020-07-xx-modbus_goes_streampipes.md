@@ -1,9 +1,10 @@
 ---
 title: Modbus goes StreamPipes
 author: Tim Bossenmaier
-authorURL: -
-authorImageURL: -
+authorURL: ----
+authorImageURL: ---
 ---
+
 <img class="blog-image" style="..." src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
 **<div style="float: left; padding-right: 40px;"> x minutes to read</div>**
 <br>
