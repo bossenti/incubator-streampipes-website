@@ -4,35 +4,32 @@ author: Tim Bossenmaier
 authorURL: ---
 authorImageURL: ---
 ---
-<img class="blog-image" style="..." src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
+<img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
 **<div style="float: left; padding-right: 40px;"> x minutes to read</div>**
 <br>
 
 
-This blog post is about the latest supplement to the StreamPipes adapter family: the Modbus protocol.
-In the subsequent lines you can read about some basics of the protocol and how you can use it in StreamPipes.
-<!--truncate-->
+This blog post is about the latest supplement to the StreamPipes adapter family: the Modbus protocol.<br>
+In the subsequent lines you can read about some fundamental and technical aspects of the protocol and how you can use it in StreamPipes.
+<!--truncate--><br>
 
 ## Introduction
-In recent years, IoT has developed from a vague concept into a valuable and applicable instrument that can be used in industry. 
+In recent years, IoT has developed from a vague concept into a valuable and applicable instrument that can be used in industry.
 Accordingly, for more and more companies it is not just about participating in a hype, but about the necessity to remain competitive.
-<br>
-But problems often arise already from gathering data on the edge level and its transfer to the cloud.
-For sure, if you order a brand new machine, it will probably be IIoT-enabled, and that's presumably not going to be an issue.
-However, there are many machines that are still in use, even though they have already passed their twenties or thirties.
+Albeit, when attempting to implement IIoT applications, problems often arise already in the first steps: data gathering on the edge level and transferring into the cloud. <br>
+For sure, if you order a brand new machine, it will probably be IIoT-enabled, and these issues are unlikely to occur.
+In industry, however, there are many machines that are still in use, even though they have already passed their twenties or thirties.
 These are especially used by small and medium-sized companies (the famous German Mittelstand).
 Since the purchase of a new machine represents an enormous investment for these companies,
-they usually try to use machines for a longer period of time.
+they usually try to use machines for a longer period of time. <br>
 Over time, they upgrade the machines step by step and adapt them to new needs (called *retrofitting*).
 One approach here could be, for example, to install smart sensors in a machine and let them transfer data to the cloud.
-<br>
 Alternatively, IIoT can be brought directly to the PLCs. This can be achieved by using a converter
 that extracts the sensor data from the PLC and makes them accessible by using special communication protocols.
 One protocol supported by many of these converters is Modbus. Published in 1979 by Modicon (now Schneider Electric),
 it has become one of the most popular communication protocols for electronic devices due to the fact its publicly available and royalty-free.
-<br>
 Hence, the integration of Modbus is an auspicious step for the use of StreamPipes in practice. 
-
+<br>
 
 ## Basics of Modbus
 In this chapter we will introduce you to Modbus, i.e. we will talk the concept, how Modbus is set up,
