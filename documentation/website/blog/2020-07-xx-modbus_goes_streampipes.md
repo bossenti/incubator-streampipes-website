@@ -1,10 +1,9 @@
 ---
 title: Modbus goes StreamPipes
 author: Tim Bossenmaier
-authorURL: ----
-authorImageURL: ---
+authorURL: -
+authorImageURL: -
 ---
-
 <img class="blog-image" style="..." src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
 **<div style="float: left; padding-right: 40px;"> x minutes to read</div>**
 <br>
@@ -56,7 +55,7 @@ A central server (controller) is connected to multiple clients (single devices).
 The server always initiates communication by sending messages on the bus.
 These messages can either be addressed to a single device or to all devices (a so-called broadcast). <br>
 After receiving a dedicated message (no broadcast), a client answers by sending a response on the bus to the server. 
-A response may comprise the information solicited by the master or an error message if the original message was invalid or transmitted incorrectly.
+A response may comprise the information solicited by the server or an error message if the original message was invalid or transmitted incorrectly.
 The only way to start a communication is the server sending a request.
 Neither can the clients send messages to each other, nor can they send data on their own.
 <br>
@@ -86,14 +85,24 @@ If the receiver of a message requires additional information to perform the spec
 the sender specifies this in the data field. This can typically be the register address or a value to be written.
 For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
 (with length zero). <br>
-
+<br>
+###### Modbus TCP
 Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
 as this is used in StreamPipes.<br>
 To stay compatible with the serial version of Modbus, Modbus packets are embedded into TCP frames assigned to port `502`.
 Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
 which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
 predominated by the serial protocol.
+The implementation of client-server architecture (as described in the [architecture](#architecture)-section) with TCP
+is possible with simple devices, since most of the functionality is provided by the server.
 <br>
+Please be aware that the entities in TCP are modeled the other way round than in Modbus.
+A Modbus server (to be more clear: the master) is a *TCP client* and the devices are *TCP server*.
+Accordingly, a device that is to provide Modbus communication must have the characteristics of a TCP server.
+Another aspect to keep in mind, is that the TCP client/server model is more general than the simple model used by Modbus.
+If you are interested in these kind of aspects, take a look on the official [Modbus TCP implementation guidelines](https://modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf).
+<br>
+
 If you transmit Modbus communication via TCP, you can benefit from many advantages. First, TCP resp. TCP/IP compatible
 networks are extremely widespread and commonly used in all areas. This brings economic advantages as you can 
 use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
@@ -105,7 +114,9 @@ Increasing complexity should also not be neglected.
 bis hierhin allgemein, nun noch etwas über TCP, siehe Dutertre Formal Modeling and analysis...
 <br>
 ###### Data Model
-Modbus distinguishes four different object types that a slave is represented by:
+The data model of Modbus is very simple as it was originally designed for serial Modbus communication.
+Nevertheless, it is common  to all variants of Modbus.
+Modbus distinguishes four different object types (commonly referred to as registers) that a client can provide:
 <br>
 ![](/docs/blog/assets/2020-07-xx/object_types.png)
 <br>
