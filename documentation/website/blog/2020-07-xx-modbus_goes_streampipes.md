@@ -64,7 +64,7 @@ Neither can the clients send messages to each other, nor can they send data on t
 There exist a lot of different versions of how Modbus is actually implemented in terms of network design.
 The most used are:
  - **Modbus RTU**: used for serial communication, compact binary data representation, only machine-readable
- - **Modbus ASCII**: used for serial communication, communication uses ASCII characters, human-readable
+ - **Modbus ASCII**: used for serial communication, uses ASCII characters, human-readable
  - **Modbus TCP/IP**: used in TCP/IP networks, connecting on port `502`, allows other protocols on the network as well
  
 Currently, StreamPipes supports only the usage of `ModbusTCP/IP`.
@@ -110,7 +110,7 @@ networks are extremely widespread and commonly used in all areas. This brings ec
 use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
 just communicating via Modbus.
 As always in real life, the use of TCP as the communication layer also has downsides.
-A very important aspect for the application in an industrial context are possible vulnerabilities assciated with TCP.
+A very important aspect for the application in an industrial context are possible vulnerabilities associated with TCP.
 Also the increasing complexity should not be neglected.
 <br>
 ###### Data Model
@@ -118,14 +118,14 @@ The data model of Modbus is very simple as it was originally designed for serial
 Nevertheless, it is common to all variants of Modbus.
 Modbus distinguishes four different object types (commonly referred to as registers) that a client can provide:
 <br>
-![](/docs/blog/assets/2020-07-xx/object_types.png)
+![ ](/docs/blog/assets/2020-07-xx/object_types.png)
 <br>
 Usually, a specific field in the individual registers is accessible via a 16-bit address and 
 Modbus does not require to keep the four address spaces separate, thus they can overlap.
 Furthermore, a Modbus device can but is not required to support all types of registers and
 can also offer fewer addresses than in a 16-bit space.
 
-So for practical purpose, you can consider `coil` and `disrete input` as boolean values and 
+So for practical purpose, you can consider `coil` and `discrete input` as boolean values and 
 `holding register` and `input register` as integers.
 <br>
 
