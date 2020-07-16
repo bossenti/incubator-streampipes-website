@@ -163,6 +163,18 @@ As already mentioned above, the Modbus connector is currently limited to using E
 
 In the following we will provide you a step-by-step example on how to use StreamPipes for analyzing Modbus data.
 
+### Create an Modbus Adapter
+Got to, click on etc...
+Specify the following infos:
+ - `NodeID`: bla
+ - `NodeAdress`: 
+ 
+ See the StreamPipes specific naming explained in this animation:
+ <div style="text-align: center">
+ <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/detailed_view_device.gif" alt="explanation of different parameters on device">
+ </div>
+ <br>
+ 
 
 #### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
