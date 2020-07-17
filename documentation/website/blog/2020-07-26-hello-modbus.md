@@ -2,7 +2,7 @@
 title: Hello, Modbus!
 author: Tim Bossenmaier
 authorURL: ---
-authorImageURL: ---
+authorImageURL: /docs/img/bossenmaier.png
 ---
 <br>
 
@@ -53,15 +53,14 @@ Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classi
 ### Architecture
 A typical architecture in which Modbus can be applied consists of multiple devices connected to a single bus and communicating with a central controller.
 To administrate the network, e.g. control access to communication line,
-Modbus uses a master-slave structure (hereinafter named client-server-architecture,
-where client refers to slave and server to master) as the architecture.
-A central server (controller) is connected to multiple clients (single devices).
-The server always initiates communication by sending messages on the bus.
+Modbus uses a [primary-replica structure](https://en.wikipedia.org/wiki/Master/slave_(technology)) as the architecture.
+A central controller (primary) is connected to multiple devices (replica).
+The primary always initiates communication by sending messages on the bus.
 These messages can either be addressed to a single device or to all devices (a so-called broadcast). <br>
-After receiving a dedicated message (no broadcast), a client answers by sending a response on the bus to the server. 
-A response may comprise the information solicited by the server or an error message if the original message was invalid or transmitted incorrectly.<br>
-The only way to start a communication is the server sending a request.
-Neither can the clients send messages to each other, nor can they send data on their own.
+After receiving a dedicated message (no broadcast), a replica answers by sending a response on the bus to the primary. 
+A response may comprise the information solicited by the primary or an error message if the original message was invalid or transmitted incorrectly.<br>
+The only way to start a communication is the primary sending a request.
+Neither can the replica send messages to each other, nor can they send data on their own.
 <br>
 
 <div style="text-align: center">
@@ -112,12 +111,12 @@ To stay compatible with its serial version, Modbus packets are embedded into TCP
 Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
 which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
 predominated by the serial protocol.
-The implementation of client-server architecture (as described in the [architecture](#architecture)-section) with TCP
+The implementation of primary-replica architecture (as described in the [architecture](#architecture)-section) with TCP
 is possible with simple devices, since most of the functionality is provided by the server.
 <br>
 
 Please be aware that the entities in TCP are modeled the other way round than in Modbus.
-A Modbus server (to be more clear: the master) is a *TCP client* and the devices are *TCP server*.
+A Modbus primary is a *TCP client* and the replica are *TCP server*.
 Accordingly, a device that is to provide Modbus communication must have the characteristics of a TCP server.
 Another aspect to keep in mind, is that the TCP client/server model is more general than the simple model used by Modbus.
 If you are interested in these kind of aspects, take a look on the official [Modbus TCP implementation guidelines](https://modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf).
@@ -135,7 +134,7 @@ Also, the increasing complexity should not be neglected.
 ### Data Model
 The data model of Modbus is very simple as it was originally designed for serial Modbus communication.
 Nevertheless, it is common to all variants of Modbus.
-Modbus distinguishes four different object types (commonly referred to as registers) that a client can provide:
+Modbus distinguishes four different object types (commonly referred to as registers) that a replica can provide:
 <br>
 <div style="text-align: center">
 <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/object_types.png" alt="object types of Modbus"/>
@@ -146,7 +145,7 @@ Modbus distinguishes four different object types (commonly referred to as regist
 Usually, a specific field in the individual registers is accessible via a 16-bit address and 
 Modbus does not require to keep the four address spaces separate, thus they can overlap.
 Furthermore, a Modbus device can but is not required to support all types of registers and
-can also offer fewer addresses than in a 16-bit space.
+can also offer fewer addresses than possible in a 16-bit space.
 
 So for practical purpose, you can use `coil` and `discrete input` for boolean values and 
 `holding register` and `input register` for integers.
@@ -162,19 +161,49 @@ This allows us to provide easy use of Modbus in the form of a dedicated connecto
 As already mentioned above, the Modbus connector is currently limited to using Ethernet communication via TCP/IP.
 
 In the following we will provide you a step-by-step example on how to use StreamPipes for analyzing Modbus data.
+To do so, we will guide you through a little use case where we read sensor data of a pump via Modbus in StreamPipes. 
+These sensor data contain typical information about a pump (e.g. `mass flow`, `volume flow`, or `fluid temperature`). 
+To simulate a real working system, the values are changed every second. <br>
+In this article, we only show the StreamPipes side. If you want to have a look on the implementation of the Modbus replica or the data, we provide you  that in a [GitHub repo](https://github.com/bossenti/modbus-usecase).
+
 
 ### Create an Modbus Adapter
-Got to, click on etc...
-Specify the following infos:
- - `NodeID`: bla
- - `NodeAdress`: 
+The first step we have to do, is to create a adapter for our Modbus device.
+<div class="my-carousel">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_1.png" alt="create adapter">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_2.png" alt="create adapter">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_3.png" alt="create adapter">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_4.png" alt="create adapter">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_5.png" alt="create adapter">
+<img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_6.png" alt="create adapter">
+</div>
+
+Open the *StreamPipes Connect* by clicking it on the left toolbar and select the *PLC4X Modbus Adapter*.
+A dialog will open where you have to configure the following parameters:
+ - `PLC-Address`: IP-address under which the PLC is accessible
+ - `PLC-Port`: The port the PLC is listening to. In most cases this is port `502` for Modbus, in some cases `5020`
+ - `PLC-ID`: ID of the device in the Modbus network
+
+So far the parameters are PLC-specific, now we will define the single data streams. 
+You have to specify all three for each information you want to query.
+ - `Node Address`: Address of the value in the specific register
+ - `Runtime Name`: Name under which you want the data use
+ - `Object Type`: choose the appropriate Modbus object type (see more in the section about the [data model](#data-model))
  
- See the StreamPipes specific naming explained in this animation:
+To get this (partwise StreamPipes specific) terms more clearer, have a look on the animation below:
  <div style="text-align: center">
  <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/detailed_view_device.gif" alt="explanation of different parameters on device">
  </div>
  <br>
  
+ In the next window you could define some of the data as e.g. dimensions, but in our case we keep them as measurements.
+ Subsequently, we can give the adpater a name and a short description.
+ If everything is set up properly so far, you will receive a *successfully created* message in the next window.
+ Now we are done with the configuration of the Modbus adapter and find it from now on in the *All Adapters* cection in *StreamPipes Connect*.
+ 
+ 
+ ### Create a Pipeline
+ As the next step, we have to build our pipeline in which the Modbus data should be processed.
 
 #### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
