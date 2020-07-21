@@ -18,14 +18,14 @@ In the subsequent lines you can read about some fundamental and technical aspect
 <!--truncate--><br>
 
 ## Introduction
-In recent years, IoT has developed from a vague concept into a valuable and applicable instrument that can be used in industry.
+In recent years, IoT has developed from a vague concept into a valuable and applicable tool that can be used in industry.
 Accordingly, for more and more companies it is not just about participating in a hype, but about the necessity to remain competitive.
 Albeit, when attempting to implement IIoT applications, problems often arise already in the first steps: data gathering on the edge level and transferring into the cloud. <br>
 For sure, if you order a brand-new machine, it will probably be IIoT-enabled, and these issues are unlikely to occur.
 In the industry, however, there are many machines that are still in use, even though they have already passed their twenties or thirties.
-These are especially used by small and medium-sized companies (the famous German Mittelstand).
+These are especially used by small and medium-sized companies (e.g. the famous German Mittelstand).
 Since the purchase of a new machine represents an enormous investment for these companies,
-they usually try to use machines for a longer period of time. <br>
+they usually try to use machines until it is no longer possible. <br>
 Over time, they upgrade the machines step by step and adapt them to new needs (called *retrofitting*).
 One approach here could be, for example, to install smart sensors in a machine and let them transfer data to the cloud.
 Alternatively, IIoT can be brought directly to the PLCs. This can be achieved by using a converter
@@ -46,7 +46,7 @@ directly continue with [using Modbus in StreamPipes](#using-modbus-in-streampipe
 Since its release in 1979, Modbus has become one of the most widely used protocols in the industrial context,
 which can be traced back to its simplicity and high communication efficiency.
 To facilitate communication, Modbus enables multiple devices connected in an Ethernet network or to the same cable
-to swap messages.Beside Ethernet, a serial interface can be used as the wiring type, Modbus supports here RS232, RS422 and RS485.
+to swap messages. Beside Ethernet, a serial interface can be used as the wiring type, Modbus supports here RS232, RS422 and RS485.
 Within the [OSI model](https://en.wikipedia.org/wiki/OSI_model) Modbus is classified as an application layer protocol.
 <br>
 
@@ -73,7 +73,7 @@ There exist a lot of different versions of how Modbus is actually implemented in
 The most used are:
  - **Modbus RTU**: used for serial communication, compact binary data representation, only machine-readable
  - **Modbus ASCII**: used for serial communication, uses ASCII characters, human-readable
- - **Modbus TCP/IP**: used in TCP/IP networks, connecting on port `502`, allows other protocols on the network as well
+ - **Modbus TCP/IP**: used in TCP/IP networks, connecting on port `502`, allows to use other protocols on the network as well
  
 Currently, StreamPipes supports only the usage of `ModbusTCP/IP`.
 <br>
@@ -107,7 +107,7 @@ For some function codes, the specified action does not require any additional in
 ### Modbus TCP
 Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
 as this is used in StreamPipes.<br>
-To stay compatible with its serial version, Modbus packets are embedded into TCP frames assigned to port `502`.
+To stay compatible with its serial version, Modbus packets are embedded into TCP frames assigned to port `502` (alternatively `5020` is used often as well).
 Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
 which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
 predominated by the serial protocol.
@@ -157,7 +157,7 @@ Up to here, we have already talked a lot about the theoretical aspects of Modbus
 
 ## Using Modbus in StreamPipes
 For the integration of Modbus into StreamPipes we use the driver of the awesome library [PLC4X](https://plc4x.apache.org/).
-This allows us to provide easy use of Modbus in the form of a dedicated connector that can be found in the data marketplace of StreamPipes Connect.
+This allows us to provide easy use of Modbus in the form of a dedicated connector that can be found in the *data marketplace* of StreamPipes Connect.
 As already mentioned above, the Modbus connector is currently limited to using Ethernet communication via TCP/IP.
 
 In the following we will provide you with a step-by-step example on how to use StreamPipes for analyzing Modbus data.
