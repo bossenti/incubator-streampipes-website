@@ -21,8 +21,8 @@ In the subsequent lines you can read about some fundamental and technical aspect
 In recent years, IoT has developed from a vague concept into a valuable and applicable instrument that can be used in industry.
 Accordingly, for more and more companies it is not just about participating in a hype, but about the necessity to remain competitive.
 Albeit, when attempting to implement IIoT applications, problems often arise already in the first steps: data gathering on the edge level and transferring into the cloud. <br>
-For sure, if you order a brand new machine, it will probably be IIoT-enabled, and these issues are unlikely to occur.
-In industry, however, there are many machines that are still in use, even though they have already passed their twenties or thirties.
+For sure, if you order a brand-new machine, it will probably be IIoT-enabled, and these issues are unlikely to occur.
+In the industry, however, there are many machines that are still in use, even though they have already passed their twenties or thirties.
 These are especially used by small and medium-sized companies (the famous German Mittelstand).
 Since the purchase of a new machine represents an enormous investment for these companies,
 they usually try to use machines for a longer period of time. <br>
@@ -59,7 +59,7 @@ The primary always initiates communication by sending messages on the bus.
 These messages can either be addressed to a single device or to all devices (a so-called broadcast). <br>
 After receiving a dedicated message (no broadcast), a replica answers by sending a response on the bus to the primary. 
 A response may comprise the information solicited by the primary or an error message if the original message was invalid or transmitted incorrectly.<br>
-The only way to start a communication is the primary sending a request.
+The only way to start communication is the primary sending a request.
 Neither can the replica send messages to each other, nor can they send data on their own.
 <br>
 
@@ -94,7 +94,7 @@ The values from 1 to 127 are reserved for the specific functions, but only ninet
 The range 128-255 is used for exception responses, which are necessary if the message is invalid or the recipient could not process it.
 If the receiver of a message requires additional information to perform the specified action,
 the sender specifies this in the data field. This can typically be the register address plus the number of fields.
-For some function codes, the specified action does not require any additional information, therefore, the data field does not exist
+For some function codes, the specified action does not require any additional information, thus, the data field does not exist
 (with length zero).
  <br>
 
@@ -116,10 +116,10 @@ is possible with simple devices, since most of the functionality is provided by 
 <br>
 
 Please be aware that the entities in TCP are modeled the other way round than in Modbus.
-A Modbus primary is a *TCP client* and the replica are *TCP server*.
+A Modbus primary is a *TCP client* and the replica is a *TCP server*.
 Accordingly, a device that is to provide Modbus communication must have the characteristics of a TCP server.
 Another aspect to keep in mind, is that the TCP client/server model is more general than the simple model used by Modbus.
-If you are interested in these kind of aspects, take a look on the official [Modbus TCP implementation guidelines](https://modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf).
+If you are interested in this kind of aspects, take a look on the official [Modbus TCP implementation guidelines](https://modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf).
 <br>
 
 If you transmit Modbus communication via TCP, you can benefit from many advantages. First, TCP resp. TCP/IP compatible
@@ -127,8 +127,8 @@ networks are extremely widespread and commonly used in all areas. This brings ec
 use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
 just communicating via Modbus.
 As always in real life, the use of TCP as the communication layer also has downsides.
-A very important aspect for the application in an industrial context are possible vulnerabilities associated with TCP.
-Also, the increasing complexity should not be neglected.
+A very important aspect for the application in an industrial context is the possible vulnerabilities associated with TCP.
+Also, the increasing complexity should not be spurned.
 <br>
 
 ### Data Model
@@ -160,10 +160,10 @@ For the integration of Modbus into StreamPipes we use the driver of the awesome 
 This allows us to provide easy use of Modbus in the form of a dedicated connector that can be found in the data marketplace of StreamPipes Connect.
 As already mentioned above, the Modbus connector is currently limited to using Ethernet communication via TCP/IP.
 
-In the following we will provide you a step-by-step example on how to use StreamPipes for analyzing Modbus data.
+In the following we will provide you with a step-by-step example on how to use StreamPipes for analyzing Modbus data.
 To do so, we will guide you through a small use case where we read sensor data of a pump via Modbus into StreamPipes. 
 These sensor data contain typical information about a pump (e.g. `mass flow`, `volume flow`, or `fluid temperature`). 
-To simulate a real working system, the values are changed every second. <br>
+To simulate a real working system, the values change every second. <br>
 In this article, we only show the steps in StreamPipes. If you would like to take a look on the Modbus replica implementation or the data, we provide it in a [GitHub repo](https://github.com/bossenti/modbus-usecase).
 
 
@@ -196,25 +196,24 @@ To illustrate these (partly StreamPipes-specific) terms, watch the animation bel
  </div>
  <br>
  
- In the next window, you could define some of the data as dimensions, for example, but in our case we keep them as measurements.
-Then we can give the adapter a name and a short description.
+ In the next window, you could define some data as dimensions, for example, but in our case we keep them as measurements.
+ Then we can give the adapter a name and a short description.
  If everything is set properly so far, you will get a *successfully created* message in the next window.
  Now we are done with the configuration of the Modbus adapter and from now we can find it in the *All Adapters* section in *StreamPipes Connect*.
  
- <br>
- 
+ <br> 
  What we have shown so far, is specifically for working with Modbus. Whereas, the following steps will be the classic StreamPipes workflow which is also applicable to many other scenarios you can imagine.
  We will also keep this very simple, if you want to get more information about the functionalities and features of StreamPipes, take the [user tour](https://streampipes.apache.org/docs/docs/user-guide-tour/).
  
  ### Create a Pipeline
  
- As the next step, we have to build our pipeline in which the Modbus data should be processed.
- Therefore, go to the *Pipeline Editor* in the toolbar on the left.
- Drag `Modbus Pump` from the *Data Streams* section and drop it on the grid area below. <br>
- We want to get a notification when the fluid temperature exceeds 10 degree. Therefore, we have to connect our data stream to a `numerical filter` from
- the *data processors* bar and configure it accordingly. Then we need the `notification` from *data sinks*. After configuration we can connect it to the numerical filter.
- Additionally, we also connect a `dashboard` from *data sinks* to our data stream to have a look on the actual values.
- Now save the pipeline and we have set up our pipeline properly.
+ The next step is to build our pipeline in which the Modbus data will be processed.
+ Therefore, go to the *Pipeline Editor* in the toolbar on the left side.
+ Drag the `Modbus Pump` from the *Data Streams* section and drop it on the grid area below. <br>
+ We want to receive a notification when the fluid temperature exceeds 10 degree. Therefore, we need to connect our data stream to a `numerical filter` from
+ the *data processors* bar and configure it accordingly. Then we need the `notification` from *data sinks*. Once configured, we can connect it to the numerical filter.
+ Additionally, we also link a `dashboard` from *data sinks* to our data stream to have a look on the actual values.
+ Now save the pipeline, and we have set up our pipeline properly.
  
  <div class="my-carousel">
  <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_1.png"/>
@@ -224,22 +223,22 @@ Then we can give the adapter a name and a short description.
  <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_5.png"/>
  </div>
  
- Finally, to actually work with our pipeline, we have to start it. Open the *Pipeline* section in the toolbar on the left and click on the play button.
+ To actually be able to work with our pipeline, we have to start it eventually. Open the *Pipeline* section in the toolbar on the left side and click the play button.
  <div style="text-align: center">
  <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/start_pipeline.png" alt="overview of pipelines"/>
  </div>
  
  ### Monitor the data stream
- The moment we start the pipeline, our configured detection tools work.
- So from this moment on, you can observe notifications popping up in the *notification* section in the toolbar left hand.
- There you can inspect the single notifications as you can see below.
+ The moment we start the pipeline, our configured detection tools are working.
+ So from that moment on, you can observe notifications appear in the *notification* section in the toolbar on the left.
+ There you can inspect the single notifications, as you can see below.
  <div style="text-align: center">
   <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/notifications.png" alt="notification window"/>
  </div>
  
  <br> 
  Finally, we can configure our dashboard. Go to the *Dashboard* section on the toolbar and create a new dashboard.
- Click on *Edit* and add the fluid temperature as a line chart. We now can watch the incoming values for the fluid temperature continously.
+ Click *Edit* and add the fluid temperature as a line chart. Now we can continuously observe the incoming fluid temperature values.
  
   <div class="my-carousel">
   <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_dashboard_1.png"/>
@@ -247,7 +246,7 @@ Then we can give the adapter a name and a short description.
   <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_dashboard_3.png"/>
   </div>
   
-That's our short tutorial to show you our new Modbus Adapter. StreamPipes offers you a big toolset for monitoring and analyzing data streams.
+That's our short tutorial to introduce you to our new Modbus Adapter. StreamPipes offers you a lot more tools for monitoring and analyzing your data streams.
 Have fun exploring it!
 
 <br>
