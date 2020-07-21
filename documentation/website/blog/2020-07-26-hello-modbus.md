@@ -161,14 +161,14 @@ This allows us to provide easy use of Modbus in the form of a dedicated connecto
 As already mentioned above, the Modbus connector is currently limited to using Ethernet communication via TCP/IP.
 
 In the following we will provide you a step-by-step example on how to use StreamPipes for analyzing Modbus data.
-To do so, we will guide you through a little use case where we read sensor data of a pump via Modbus in StreamPipes. 
+To do so, we will guide you through a small use case where we read sensor data of a pump via Modbus into StreamPipes. 
 These sensor data contain typical information about a pump (e.g. `mass flow`, `volume flow`, or `fluid temperature`). 
 To simulate a real working system, the values are changed every second. <br>
-In this article, we only show the StreamPipes side. If you want to have a look on the implementation of the Modbus replica or the data, we provide you  that in a [GitHub repo](https://github.com/bossenti/modbus-usecase).
+In this article, we only show the steps in StreamPipes. If you would like to take a look on the Modbus replica implementation or the data, we provide it in a [GitHub repo](https://github.com/bossenti/modbus-usecase).
 
 
 ### Create an Modbus Adapter
-The first step we have to do, is to create a adapter for our Modbus device.
+The first step we need to do is to create an adapter for our Modbus device.
 <div class="my-carousel">
 <img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_1.png" alt="create adapter">
 <img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_2.png" alt="create adapter">
@@ -178,29 +178,33 @@ The first step we have to do, is to create a adapter for our Modbus device.
 <img class="blog-image" style="max-width:100%;" src="/docs/blog/assets/2020-07-xx/create_adapter_step_6.png" alt="create adapter">
 </div>
 
-Open the *StreamPipes Connect* by clicking it on the left toolbar and select the *PLC4X Modbus Adapter*.
-A dialog will open where you have to configure the following parameters:
- - `PLC-Address`: IP-address under which the PLC is accessible
- - `PLC-Port`: The port the PLC is listening to. In most cases this is port `502` for Modbus, in some cases `5020`
+Open the *StreamPipes Connect* by clicking it in the left toolbar and select the *PLC4X Modbus Adapter*.
+A dialog opens where you need to configure the following parameters:
+ - `PLC-Address`: IP-address under which the PLC can be reached
+ - `PLC-Port`: The port to which the PLC listens. In most cases this is port `502` for Modbus, in some cases `5020`
  - `PLC-ID`: ID of the device in the Modbus network
 
-So far the parameters are PLC-specific, now we will define the single data streams. 
-You have to specify all three for each information you want to query.
+So far the parameters are PLC-specific, now we will define the individual data streams. 
+You must specify all three for each information you want to query.
  - `Node Address`: Address of the value in the specific register
- - `Runtime Name`: Name under which you want the data use
+ - `Runtime Name`: Name under which the data is to be referred later
  - `Object Type`: choose the appropriate Modbus object type (see more in the section about the [data model](#data-model))
  
-To get this (partwise StreamPipes specific) terms more clearer, have a look on the animation below:
+To illustrate these (partly StreamPipes-specific) terms, watch the animation below:
  <div style="text-align: center">
  <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/detailed_view_device.gif" alt="explanation of different parameters on device">
  </div>
  <br>
  
- In the next window you could define some of the data as e.g. dimensions, but in our case we keep them as measurements.
- Subsequently, we can give the adpater a name and a short description.
- If everything is set up properly so far, you will receive a *successfully created* message in the next window.
- Now we are done with the configuration of the Modbus adapter and find it from now on in the *All Adapters* cection in *StreamPipes Connect*.
+ In the next window, you could define some of the data as dimensions, for example, but in our case we keep them as measurements.
+Then we can give the adapter a name and a short description.
+ If everything is set properly so far, you will get a *successfully created* message in the next window.
+ Now we are done with the configuration of the Modbus adapter and from now we can find it in the *All Adapters* section in *StreamPipes Connect*.
  
+ <br>
+ 
+ What we have shown so far, is specifically for working with Modbus. Whereas, the following steps will be the classic StreamPipes workflow which is also applicable to many other scenarios you can imagine.
+ We will also keep this very simple, if you want to get more information about the functionalities and features of StreamPipes, take the [user tour](https://streampipes.apache.org/docs/docs/user-guide-tour/).
  
  ### Create a Pipeline
  As the next step, we have to build our pipeline in which the Modbus data should be processed.
