@@ -207,7 +207,50 @@ Then we can give the adapter a name and a short description.
  We will also keep this very simple, if you want to get more information about the functionalities and features of StreamPipes, take the [user tour](https://streampipes.apache.org/docs/docs/user-guide-tour/).
  
  ### Create a Pipeline
+ 
  As the next step, we have to build our pipeline in which the Modbus data should be processed.
+ Therefore, go to the *Pipeline Editor* in the toolbar on the left.
+ Drag `Modbus Pump` from the *Data Streams* section and drop it on the grid area below. <br>
+ We want to get a notification when the fluid temperature exceeds 10 degree. Therefore, we have to connect our data stream to a `numerical filter` from
+ the *data processors* bar and configure it accordingly. Then we need the `notification` from *data sinks*. After configuration we can connect it to the numerical filter.
+ Additionally, we also connect a `dashboard` from *data sinks* to our data stream to have a look on the actual values.
+ Now save the pipeline and we have set up our pipeline properly.
+ 
+ <div class="my-carousel">
+ <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_1.png"/>
+ <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_2.png"/>
+ <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_3.png"/>
+ <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_4.png"/>
+ <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_pipeline_5.png"/>
+ </div>
+ 
+ Finally, to actually work with our pipeline, we have to start it. Open the *Pipeline* section in the toolbar on the left and click on the play button.
+ <div style="text-align: center">
+ <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/start_pipeline.png" alt="overview of pipelines"/>
+ </div>
+ 
+ ### Monitor the data stream
+ The moment we start the pipeline, our configured detection tools work.
+ So from this moment on, you can observe notifications popping up in the *notification* section in the toolbar left hand.
+ There you can inspect the single notifications as you can see below.
+ <div style="text-align: center">
+  <img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/notifications.png" alt="notification window"/>
+ </div>
+ 
+ <br> 
+ Finally, we can configure our dashboard. Go to the *Dashboard* section on the toolbar and create a new dashboard.
+ Click on *Edit* and add the fluid temperature as a line chart. We now can watch the incoming values for the fluid temperature continously.
+ 
+  <div class="my-carousel">
+  <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_dashboard_1.png"/>
+  <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_dashboard_2.png"/>
+  <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/create_dashboard_3.png"/>
+  </div>
+  
+That's our short tutorial to show you our new Modbus Adapter. StreamPipes offers you a big toolset for monitoring and analyzing data streams.
+Have fun exploring it!
+
+<br>
 
 #### Interesting Links
 - [1] [About retrofitting [in German]](https://www.industry-of-things.de/keine-maschine-ist-zu-alt-fuers-retrofitting-a-776709/)
@@ -215,8 +258,6 @@ Then we can give the adapter a name and a short description.
 - [3] [More on PLC4X](https://plc4x.apache.org/)
 
 <br>
-<br>
-
 #### Please Notice
 This article and the corresponding work in StreamPipes were part of the seminar
 *Data Science and Real Time Analytics* of the [FZI](https://www.fzi.de/en/home/) in the summer term 2020. <br>
