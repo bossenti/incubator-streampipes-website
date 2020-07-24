@@ -147,7 +147,7 @@ Modbus does not require to keep the four address spaces separate, thus they can 
 Furthermore, a Modbus device can but is not required to support all types of registers and
 can also offer fewer addresses than possible in a 16-bit space.
 
-So for practical purpose, you can use `coil` and `discrete input` for boolean values and 
+Thus, for practical purpose, you can use `coil` and `discrete input` for boolean values and 
 `holding register` and `input register` for integers.
 <br>
 
