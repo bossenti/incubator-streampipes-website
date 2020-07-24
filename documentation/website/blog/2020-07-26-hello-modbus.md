@@ -126,7 +126,7 @@ If you transmit Modbus communication via TCP, you can benefit from many advantag
 networks are extremely widespread and commonly used in all areas. This brings economic advantages as you can 
 use the existing infrastructure. Second, TCP is very flexible and it is possible to use the network for more than
 just communicating via Modbus.
-As always in real life, the use of TCP as the communication layer also has downsides.
+As always in real life, the use of TCP as the transportation layer also has downsides.
 A very important aspect for the application in an industrial context is the possible vulnerabilities associated with TCP.
 Also, the increasing complexity should not be spurned.
 <br>
