@@ -9,7 +9,7 @@ authorImageURL: /docs/img/bossenmaier.png
 <img class="blog-image" style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/modbus_streampipes.png" alt="Modbus on StreamPipes">
 <br>
 
-**<div style="float: left; padding-right: 40px;"> x minutes to read</div>**
+**<div style="float: left; padding-right: 40px;"> 8 minutes to read</div>**
 <br>
 
 
@@ -89,28 +89,10 @@ the ADU may require some additional fields, depending on the specific network or
 </figure>
 <br>
 
-The function code encodes the action to be performed for the receiver and consists of one byte, e.g. `0x02`  for *Read Discrete Inputs*.
-The values from 1 to 127 are reserved for the specific functions, but only nineteen of them are actually assigned a corresponding function.
-The range 128-255 is used for exception responses, which are necessary if the message is invalid or the recipient could not process it.
-If the receiver of a message requires additional information to perform the specified action,
-the sender specifies this in the data field. This can typically be the register address plus the number of fields.
-For some function codes, the specified action does not require any additional information, thus, the data field does not exist
-(with length zero).
- <br>
-
-<figure style="text-align: center">
-<img style="max-width: 100%;" src="/docs/blog/assets/2020-07-xx/message_check.png" height="350" alt="message validation process of modbus"/>
-<figcaption>Schematic representation of the message validation process </figcaption>
-</figure>
-<br>
-
 ### Modbus TCP
 Up to here, this is common for all versions of Modbus. In the following, we will present you some details on the Modbus TCP protocol,
 as this is used in StreamPipes.<br>
 To stay compatible with its serial version, Modbus packets are embedded into TCP frames assigned to port `502` (alternatively `5020` is used often as well).
-Such a TCP frame consists of the TCP components (IP and TCP headers), a Modbus-specific header and the actual Modbus message,
-which coincides in length and structure with the serial one. Furthermore, several fields in the Modbus TCP header are
-predominated by the serial protocol.
 The implementation of primary-replica architecture (as described in the [architecture](#architecture)-section) with TCP
 is possible with simple devices, since most of the functionality is provided by the server.
 <br>
@@ -141,11 +123,6 @@ Modbus distinguishes four different object types (commonly referred to as regist
 </div>
 
 <br>
-
-Usually, a specific field in the individual registers is accessible via a 16-bit address and 
-Modbus does not require to keep the four address spaces separate, thus they can overlap.
-Furthermore, a Modbus device can but is not required to support all types of registers and
-can also offer fewer addresses than possible in a 16-bit space.
 
 Thus, for practical purpose, you can use `coil` and `discrete input` for boolean values and 
 `holding register` and `input register` for integers.
